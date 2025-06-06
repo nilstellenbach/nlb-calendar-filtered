@@ -6,6 +6,7 @@
   <title>Google Calender Filtered</title>
   <link href="libs/fullcalendar/main.min.css" rel="stylesheet" />
   <script src="libs/fullcalendar/main.min.js"></script>
+  <script src="libs/fullcalendar/daygrid.min.js"></script>
   
   <!-- Neue Google Identity Services Library -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -125,11 +126,13 @@
       }
       const calendarEl = document.getElementById('calendar');
       calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: [ 'dayGrid' ],   // <-- Hier Plugins angeben!
         initialView: 'dayGridMonth',
         events: events
       });
       calendar.render();
     }
+
 
     // Abmelden
     function signOut() {

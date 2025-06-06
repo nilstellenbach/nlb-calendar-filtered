@@ -3,19 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Google Calender Filtered</title>
+  <title>Google Kalender Wochenansicht</title>
+
+  <!-- FullCalendar Styles -->
   <link href="libs/fullcalendar/main.min.css" rel="stylesheet" />
-  <link href="libs/fullcalendar/daygrid.min.css" rel="stylesheet" />
   <link href="libs/fullcalendar/timegrid.min.css" rel="stylesheet" />
-  
+
+  <!-- FullCalendar Scripts -->
   <script src="libs/fullcalendar/main.min.js"></script>
-  <script src="libs/fullcalendar/daygrid.min.js"></script>
   <script src="libs/fullcalendar/timegrid.min.js"></script>
-  
-  <!-- Neue Google Identity Services Library -->
+
+  <!-- Google Identity Services -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  
+
   <style>
+    /* deine Styles... */
     body {
       font-family: 'Inter', sans-serif;
       padding: 40px 20px 60px;
@@ -70,7 +72,7 @@
   </style>
 </head>
 <body>
-  <h1>Google-Kalender ohne Nati-Einträge</h1>
+  <h1>Google-Kalender (nur Wochenansicht)</h1>
   <button id="login_button">Anmelden mit Google</button>
   <button id="logout_button">Abmelden</button>
   <div id="calendar"></div>
@@ -87,7 +89,6 @@
     const loginButton = document.getElementById('login_button');
     const logoutButton = document.getElementById('logout_button');
 
-    // Google Identity Services Token Client initialisieren
     let tokenClient;
 
     function initializeGisClient() {
@@ -107,7 +108,6 @@
       });
     }
 
-    // Events aus Google Calendar laden mit Access Token
     async function loadCalendarEvents() {
       if (!accessToken) {
         alert('Bitte erst anmelden');
@@ -140,33 +140,29 @@
           }));
 
         renderCalendar(filteredEvents);
-
       } catch (error) {
         console.error(error);
       }
     }
 
-    // FullCalendar rendern
     function renderCalendar(events) {
       if (calendar) {
         calendar.destroy();
       }
       const calendarEl = document.getElementById('calendar');
       calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: [ 'dayGrid', 'timeGrid' ],  // Plugins für Monats-, Wochen-, Tagesansicht
+        plugins: [ 'timeGrid' ],  // wichtig für Wochenansicht
         initialView: 'timeGridWeek',
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          right: ''
         },
         events: events
       });
       calendar.render();
     }
 
-
-    // Abmelden
     function signOut() {
       accessToken = null;
       loginButton.style.display = 'inline-block';
@@ -175,8 +171,6 @@
         calendar.destroy();
         calendar = null;
       }
-      // Token manuell widerrufen (optional)
-      // https://developers.google.com/identity/oauth2/web/guides/revoke-access
     }
 
     window.onload = () => {

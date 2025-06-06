@@ -149,7 +149,6 @@
       }
       const calendarEl = document.getElementById('calendar');
       calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: [ 'timeGrid' ],  // wichtig für Wochenansicht
         initialView: 'dayGridWeek',
         headerToolbar: {
           left: 'prev,next today',
@@ -158,6 +157,7 @@
         },
         events: events
       });
+
       calendar.render();
     }
 
